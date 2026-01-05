@@ -156,47 +156,53 @@ const Index = () => {
         </div>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {privileges.map((privilege) => (
-            <Card 
+            <div 
               key={privilege.id} 
-              className={`relative overflow-hidden border-2 card-glow ${
-                privilege.popular ? 'border-primary' : 'border-border'
+              className={`relative overflow-hidden rounded-xl card-glow ${
+                privilege.popular ? 'scale-105' : ''
               }`}
             >
-              {privilege.popular && (
-                <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 text-xs font-bold">
-                  ПОПУЛЯРНОЕ
+              <div className={`absolute inset-0 bg-gradient-to-br ${privilege.color} opacity-10`}></div>
+              <div className={`relative border-2 rounded-xl ${
+                privilege.popular ? 'border-primary' : 'border-border'
+              } bg-card/80 backdrop-blur-sm`}>
+                {privilege.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 text-xs font-bold rounded-full z-10">
+                    ⭐ ПОПУЛЯРНОЕ
+                  </div>
+                )}
+                <div className="p-8">
+                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${privilege.color} flex items-center justify-center mb-6 mx-auto shadow-lg`}>
+                    <Icon name={privilege.icon as any} className="w-10 h-10 text-white" />
+                  </div>
+                  <h4 className="text-2xl font-bold text-center mb-2">{privilege.name}</h4>
+                  <div className="text-center mb-6">
+                    <span className="text-4xl font-bold text-foreground">{privilege.price}</span>
+                    <span className="text-sm text-muted-foreground"> / месяц</span>
+                  </div>
+                  <div className="space-y-3 mb-8">
+                    {privilege.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-2 rounded-lg hover:bg-secondary/20 transition-colors">
+                        <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center mt-0.5">
+                          <Icon name="Check" className="w-3 h-3 text-primary" />
+                        </div>
+                        <span className="text-sm text-foreground">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button 
+                    className={`w-full h-12 text-base font-bold ${
+                      privilege.popular 
+                        ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/50' 
+                        : 'bg-secondary hover:bg-secondary/90'
+                    }`}
+                  >
+                    <Icon name="ShoppingBag" className="w-5 h-5 mr-2" />
+                    Купить сейчас
+                  </Button>
                 </div>
-              )}
-              <CardHeader>
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${privilege.color} flex items-center justify-center mb-4 mx-auto`}>
-                  <Icon name={privilege.icon as any} className="w-8 h-8 text-white" />
-                </div>
-                <CardTitle className="text-2xl text-center">{privilege.name}</CardTitle>
-                <CardDescription className="text-center">
-                  <span className="text-3xl font-bold text-foreground">{privilege.price}</span>
-                  <span className="text-sm"> / месяц</span>
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  {privilege.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Icon name="Check" className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button 
-                  className={`w-full ${
-                    privilege.popular 
-                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-                      : 'bg-secondary hover:bg-secondary/90'
-                  }`}
-                >
-                  Купить {privilege.name}
-                </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </section>
